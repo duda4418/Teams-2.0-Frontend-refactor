@@ -12,7 +12,7 @@ export function SideBar() {
           <DiscussionSearch />
         </div>
 
-        <ScrollArea type="always" scrollbars="vertical" style={{ height: "calc(100vh - 100px)" }}>
+        <ScrollArea type="always" scrollbars="vertical" style={{ height: "calc(100vh - 21vh)" }}>
           <div className='w-full pr-2'> {/* pr-2 helps with scrollbar overlap */}
             {[...Array(45)].map((_, index) => (
               <DiscussionCard key={index} />

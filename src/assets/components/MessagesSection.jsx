@@ -1,4 +1,6 @@
-import { Box, Button, TextArea } from "@radix-ui/themes";
+import { Box } from "@radix-ui/themes";
+import IncomingMessage from "./IncomingMessage";
+import OutgoingMessage from "./OutgoingMessage";
 
 export default function MessagesSection() {
     return (
@@ -16,7 +18,8 @@ export default function MessagesSection() {
                 }}
                 height={'calc(100vh - 14vh - 10vh)'}
             >
-                <p>HERE ARE ALL THE MESSAGES</p>
+                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
+                <OutgoingMessage message="Hi there!" time="10:01 AM" />
             </Box>
         </div>
     );

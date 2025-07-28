@@ -5,7 +5,7 @@ export default function InputBar() {
         <div className="">
             <Box
                 position="absolute"
-                bottom="2"
+                bottom="1"
                 right="4"
                 width="69vw"
                 backgroundColor="white"

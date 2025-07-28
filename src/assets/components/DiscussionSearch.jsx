@@ -5,13 +5,14 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 
 export function DiscussionSearch() {
-	return (
-        <Box maxWidth="30vw" p="3" pt="6">
+    return (
+        <Box maxWidth="30vw" p="3" pt="1" style={{ textAlign: 'left' }}>
+            <h2 style={{ fontFamily: '"Segoe UI", Arial, sans-serif', marginLeft: '1vh' }}>Teams 2.0</h2>
             <TextField.Root placeholder="Search discussions…" radius='full' size="3">
                 <TextField.Slot>
                     <MagnifyingGlassIcon height="16" width="16" />
                 </TextField.Slot>
             </TextField.Root>
         </Box>
-	);}
+    );}
 export default DiscussionSearch;
