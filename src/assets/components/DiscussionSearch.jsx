@@ -17,7 +17,6 @@ export function DiscussionSearch() {
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content>
                         <DropdownMenu.Item >Settings</DropdownMenu.Item>
-                       
                         <DropdownMenu.Separator />                       
                         <DropdownMenu.Item color="red">
                             Log out
