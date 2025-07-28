@@ -1,4 +1,5 @@
 import { Box, Button, TextArea } from "@radix-ui/themes";
+import { SendHorizontal } from "lucide-react";
 
 export default function InputBar() {
     return (
@@ -19,7 +20,9 @@ export default function InputBar() {
             >
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
                     <TextArea size="2" placeholder="Type a message" style={{ width: '100%', height:"4rem" }} />
-                    <Button style={{ height: '3rem' }} my="2">Send</Button>
+                    <Button style={{ height: '3rem' }} my="2" radius="full">
+                        <SendHorizontal />
+                    </Button>
                 </div>
             </Box>
         </div>

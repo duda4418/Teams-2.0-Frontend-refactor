@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { Flex } from "@radix-ui/themes";
 import DiscussionCard from './DiscussionCard';
 import DiscussionSearch from './DiscussionSearch';
 import { ScrollArea } from '@radix-ui/themes';
-import InputBar from './InputBar';
 
-export  default function SideBar() {
+export default function SideBar() {
+  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+
   return (
     <Flex
       direction="column"
@@ -27,7 +29,11 @@ export  default function SideBar() {
       >
         <div className="w-full pr-2">
           {[...Array(45)].map((_, index) => (
-            <DiscussionCard key={index} />
+            <DiscussionCard
+              key={index}
+              selected={index === selectedCardIndex}
+              onClick={() => setSelectedCardIndex(index)}
+            />
           ))}
         </div>
       </ScrollArea>
