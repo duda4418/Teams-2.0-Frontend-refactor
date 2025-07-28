@@ -7,7 +7,7 @@ export default function MessagesSection() {
         <div className="">
             <Box
                 position="absolute"
-                top="14vh"
+                top="10vh"
                 right="4"
                 width="69vw"
                 backgroundColor="white"
@@ -16,19 +16,9 @@ export default function MessagesSection() {
                     borderRadius: '0.5rem',
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
                 }}
-                height={'calc(100vh - 14vh - 10vh)'}
+                height={'calc(100vh - 19vh)'}
             >
-                <ScrollArea type="always" scrollbars="vertical" style={{ height: "calc(100vh - 21vh)" }}>
-                    <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                    <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                    <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                    <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                    <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                    <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                    <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                    <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                    <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                    <OutgoingMessage message="Hi there!" time="10:01 AM" />
+                <ScrollArea type="always" scrollbars="vertical" style={{ height: "calc(100vh - 28vh)" }}>
                     <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
                     <OutgoingMessage message="Hi there!" time="10:01 AM" />
                     <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />

@@ -6,20 +6,31 @@ import InputBar from './InputBar';
 
 export function SideBar() {
   return (
-    <div>
-      <Flex direction="column" gap="2" className='w-1/4 h-screen px-4 py-6'>
-        <div className="w-full">
-          <DiscussionSearch />
-        </div>
+    <Flex
+      direction="column"
+      gap="2"
+      className="w-1/4 px-4 py-6"
+      style={{ height: '100dvh', maxHeight: '100dvh' }}
+    >
+      <div className="w-full">
+        <DiscussionSearch />
+      </div>
 
-        <ScrollArea type="always" scrollbars="vertical" style={{ height: "calc(100vh - 21vh)" }}>
-          <div className='w-full pr-2'> {/* pr-2 helps with scrollbar overlap */}
-            {[...Array(45)].map((_, index) => (
-              <DiscussionCard key={index} />
-            ))}
-          </div>
-        </ScrollArea>
-      </Flex>
-    </div>
+      <ScrollArea
+        type="always"
+        scrollbars="vertical"
+        style={{
+          flex: 1,
+          minHeight: 0,
+          maxHeight: "100%",
+        }}
+      >
+        <div className="w-full pr-2">
+          {[...Array(45)].map((_, index) => (
+            <DiscussionCard key={index} />
+          ))}
+        </div>
+      </ScrollArea>
+    </Flex>
   );
 }
