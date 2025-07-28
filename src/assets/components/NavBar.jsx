@@ -1,7 +1,7 @@
 import { Flex } from "@radix-ui/themes";
 import { Box } from "@radix-ui/themes";
 
-export function NavBar() {
+export default function NavBar() {
   return (
     <div>
       <Box
@@ -10,7 +10,6 @@ export function NavBar() {
         top="2"
         right="4"
         width="69vw"
-        backgroundColor="white"
         p="4"
         style={{
           borderRadius: '0.5rem',
@@ -21,7 +20,10 @@ export function NavBar() {
           boxSizing: 'border-box',
           display: 'flex',
           alignItems: 'center',
+          zIndex:20,
+          backgroundColor: 'white',
         }}
+        
       >
         <p style={{ textAlign: "left", margin: 0 }}>DISCUSSION TITLE</p>
       </Box>

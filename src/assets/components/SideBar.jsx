@@ -4,7 +4,7 @@ import DiscussionSearch from './DiscussionSearch';
 import { ScrollArea } from '@radix-ui/themes';
 import InputBar from './InputBar';
 
-export function SideBar() {
+export  default function SideBar() {
   return (
     <Flex
       direction="column"
@@ -17,8 +17,8 @@ export function SideBar() {
       </div>
 
       <ScrollArea
-        type="always"
-        scrollbars="vertical"
+        type=""
+        scrollbars="none"
         style={{
           flex: 1,
           minHeight: 0,

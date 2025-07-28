@@ -23,7 +23,8 @@ const OutgoingMessage = ({ message, time }) => {
             <div style={{
                 fontSize: '0.75rem',
                 color: '#888',
-                marginTop: '2px',
+                marginTop: '8px',
+                marginBottom: '8px', 
                 textAlign: 'right',
                 maxWidth: '60%'
             }}>

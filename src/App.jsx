@@ -1,29 +1,27 @@
-import { useState } from 'react'
-import { SideBar } from './assets/components/SideBar.jsx'
-import { ScrollArea } from '@radix-ui/themes' 
-import InputBar from './assets/components/InputBar.jsx'
-import './App.css'
-import { NavBar } from './assets/components/NavBar.jsx'
-import MessagesSection from './assets/components/MessagesSection.jsx'
+import SideBar from './assets/components/SideBar';
+import NavBar from './assets/components/NavBar';
+import MessagesSection from './assets/components/MessagesSection';
+import InputBar from './assets/components/InputBar';
+
 
 function App() {
   return (
-    <div className="flex flex-row h-screen w-screen ">
+    <div className="flex h-screen w-screen overflow-hidden">
+      {/* Sidebar (left) */}
       <div className="w-1/4 h-full">
         <SideBar />
       </div>
-      <div>
-        <NavBar/>
-      </div>
-      <div>
-        <MessagesSection/>
-      </div>
-      <div className="flex-1 " style={{ position: "relative" }}>
-        <InputBar />
+
+      {/* Right Pane (vertical layout) */}
+      <div className="flex flex-col flex-1 h-full">
+        <NavBar />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <MessagesSection />
+          <InputBar />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-
-export default App
+export default App;
