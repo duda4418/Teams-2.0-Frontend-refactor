@@ -6,15 +6,16 @@ import { ScrollArea } from '@radix-ui/themes';
 const API_URL = import.meta.env.VITE_API_URL;
 
 
-export default function SideBar({user}) {
+export default function SideBar({user, setSelectedDiscussion}) {
   
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
   const [discussions, setDiscussions] = useState([]);
     useEffect(() => {
 
+      if (user!=null){
       const getDiscussions = async () => {
         try {
-          const response = await fetch(`${API_URL}/discussions`, {
+          const response = await fetch(`${API_URL}/discussions?user=${user.id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -34,9 +35,10 @@ export default function SideBar({user}) {
         }
       };
 
-      getDiscussions(); 
-    }, []);
-  
+      getDiscussions();
+    }
+  }, [user]);
+
   return (
     <Flex
       direction="column"
@@ -62,7 +64,10 @@ export default function SideBar({user}) {
             <DiscussionCard
               key={index}
               selected={index === selectedCardIndex}
-              onClick={() => setSelectedCardIndex(index)}
+              onClick={() => {
+                setSelectedCardIndex(index);
+                setSelectedDiscussion(discussion);
+              }}
               discussion={discussion}
               user={user}
             />

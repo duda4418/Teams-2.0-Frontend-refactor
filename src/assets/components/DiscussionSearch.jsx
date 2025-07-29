@@ -47,6 +47,7 @@ export function DiscussionSearch({user}) {
                             <MessageCirclePlus />
                         }
                         contacts={contacts}
+                        user={user}
                     />
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger>

@@ -1,9 +1,38 @@
 import { Box, ScrollArea } from "@radix-ui/themes";
 import IncomingMessage from "./IncomingMessage";
 import OutgoingMessage from "./OutgoingMessage";
+import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
+export default function MessagesSection({discussion, user}) {
+    const [messages, setMessages] = useState([]);
+    useEffect(() => {
+        if (user!=null && discussion!=null) {
+            console.log("Fetching messages for discussion:", discussion.id, "and user:", user.id);
+            const getMessages = async () => {
+                try {
+                    const response = await fetch(`${API_URL}/messages?user_id=${user.id}&discussion_id=${discussion.id}`, {
+                        method: "GET",
+                        headers: {
+                        "Content-Type": "application/json",
+                        }
+                });
 
-export default function MessagesSection() {
+                if (!response.ok) {
+                    throw new Error("Get messages failed");
+                }
+
+                const data = await response.json();
+                setMessages(data);
+                console.log("Messages fetched:", data);
+                } catch (error) {
+                console.error("Get messages error:", error);
+                }
+            };
+            getMessages();
+        }
+    }, [user, discussion]);
+
     // Adjust the container and ScrollArea to be responsive and stop above the input bar.
     // Assume the input bar has a fixed height (e.g., 64px or 4rem). Adjust as needed.
     return (
@@ -40,22 +69,24 @@ export default function MessagesSection() {
                     }
                 }}
             >
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
-                <IncomingMessage text="Hello!" sender="Alice" time="10:00 AM" />
-                <OutgoingMessage message="Hi there!" time="10:01 AM" />
+                {messages.map((msg) => {
+                    // Format time to HH:MM
+                    let formattedTime = "";
+                    if (msg.time) {
+                        const date = new Date(msg.time);
+                        if (!isNaN(date.getTime())) {
+                            formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        } else {
+                            const match = msg.time.match(/\d{2}:\d{2}/);
+                            formattedTime = match ? match[0] : msg.time;
+                        }
+                    }
+                    return msg.user_id === user.id ? (
+                        <IncomingMessage key={msg.id} text={msg.value} sender={msg.name} time={formattedTime} />
+                    ) : (
+                        <OutgoingMessage key={msg.id} message={msg.value} time={formattedTime} />
+                    );
+                })}
             </ScrollArea>
         </Box>
     );

@@ -6,7 +6,7 @@ import ContactLabel from "./ContactLabel";
 import { useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export function NewChatDialog({trigger, contacts}) {
+export function NewChatDialog({trigger, user, contacts}) {
 
     const [selectedContacts, setSelectedContacts] = useState([]);
 
@@ -26,7 +26,7 @@ export function NewChatDialog({trigger, contacts}) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            contacts: selectedContacts.map((c) => c.id),
+            contacts: [...selectedContacts.map((c) => c.id), user.id],
           }),
         });
 

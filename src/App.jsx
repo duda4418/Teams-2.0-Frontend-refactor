@@ -10,8 +10,8 @@ const PASSWORD = import.meta.env.VITE_PASSWORD;
 function App() {
 
   const [user, setUser] = useState(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState("");
   useEffect(() => {
-
     const authenticate = async () => {
       try {
         const response = await fetch(`${API_URL}/authenticate`, {
@@ -44,15 +44,15 @@ function App() {
     <div className="flex h-screen w-screen overflow-hidden">
       {/* Sidebar*/}
       <div className="w-1/4 h-full">
-        <SideBar user={user}/>
+        <SideBar user={user} setSelectedDiscussion={setSelectedDiscussion} />
       </div>
 
       {/* Right Pane*/}
       <div className="flex flex-col flex-1 h-full">
-        <NavBar />
+        <NavBar discussion={selectedDiscussion} />
         <div className="flex flex-col flex-1 overflow-hidden">
-          <MessagesSection />
-          <InputBar />
+          <MessagesSection discussion={selectedDiscussion} user={user}/>
+          <InputBar discussion={selectedDiscussion} user={user} />
         </div>
       </div>
     </div>
