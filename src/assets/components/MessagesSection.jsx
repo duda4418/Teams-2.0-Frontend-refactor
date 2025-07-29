@@ -33,7 +33,7 @@ export default function MessagesSection() {
                     paddingRight: '16px',
                     background: 'transparent',
                 }}
-                viewportProps={{
+                viewportprops={{
                     style: {
                         marginRight: '-16px',
                         overflowX: 'hidden',

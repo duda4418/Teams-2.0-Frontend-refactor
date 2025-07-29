@@ -17,7 +17,7 @@ export function ContactCard({ selected, onClick, contact }) {
       className="hover:bg-blue-100"
     >
       <Flex gap="3" align="center">
-        <Avatar size="3" radius="full" fallback="T" color="indigo" />
+        <Avatar size="3" radius="full" fallback={contact.name?.charAt(0) || "?"} color="indigo" />
         <Box style={{ overflow: 'hidden' }}>
           <Text as="div" weight="bold" className="truncate">
             {contact.name}

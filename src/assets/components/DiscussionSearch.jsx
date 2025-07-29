@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Flex, Text, Box, Card, Avatar } from "@radix-ui/themes";
 import { TextField } from '@radix-ui/themes';
 import { MagnifyingGlassIcon} from "@radix-ui/react-icons";
@@ -6,8 +6,37 @@ import { EllipsisVertical } from "lucide-react"
 import { DropdownMenu } from '@radix-ui/themes';
 import { MessageCirclePlus } from "lucide-react";
 import NewChatDialog from './NewChatDialog';
+const API_URL = import.meta.env.VITE_API_URL;
 
-export function DiscussionSearch() {
+export function DiscussionSearch({user}) {
+
+    const [contacts, setContacts] = useState([]);
+
+    useEffect(() => {
+        if (user) {
+        const getContacts = async () => {
+            try {
+                const response = await fetch(`${API_URL}/contacts`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+                });
+
+                if (!response.ok) {
+                throw new Error("Contacts fetch failed");
+                }
+
+                const data = await response.json();
+                setContacts(data);
+                console.log("User contacts:", data);
+            } catch (error) {
+                console.error("Contacts fetch error:", error);
+            }
+            };
+        getContacts();
+        }
+    }, [user]);
     return (
         <Box maxWidth="30vw" p="3" pt="1" style={{ textAlign: 'left' }}>
             <Flex justify="between" align="center" gap="2">
@@ -17,6 +46,7 @@ export function DiscussionSearch() {
                         trigger={
                             <MessageCirclePlus />
                         }
+                        contacts={contacts}
                     />
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger>
@@ -38,6 +68,7 @@ export function DiscussionSearch() {
                 </TextField.Slot>
             </TextField.Root>
         </Box>
-    );}
-    
+    );
+}
+
 export default DiscussionSearch;

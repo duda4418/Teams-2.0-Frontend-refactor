@@ -4,8 +4,9 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import ContactCard from "./ContactCard";
 import ContactLabel from "./ContactLabel";
 import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
-export function NewChatDialog({trigger}) {
+export function NewChatDialog({trigger, contacts}) {
 
     const [selectedContacts, setSelectedContacts] = useState([]);
 
@@ -17,16 +18,28 @@ export function NewChatDialog({trigger}) {
         );
     };
 
+    const createDiscussion = async () => {
+      try {
+        const response = await fetch(`${API_URL}/discussions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contacts: selectedContacts.map((c) => c.id),
+          }),
+        });
 
-    const contacts = [
-        { id: 1, name: 'Teodros Girmay', role: 'Engineering', initials: 'T' },
-        { id: 2, name: 'Sarah Ahmed', role: 'Design', initials: 'S' },
-        { id: 3, name: 'Liam Chen', role: 'Product', initials: 'L' },
-        { id: 4, name: 'Maria Garcia', role: 'Marketing', initials: 'M' },
-        { id: 5, name: 'John Smith', role: 'Sales', initials: 'J' },
-    ];
+        if (!response.ok) {
+          throw new Error("Failed to create discussion");
+        }
 
-
+        const data = await response.json();
+        console.log("Discussion created:", data);
+      } catch (error) {
+        console.error("Error creating discussion:", error);
+      }
+    };
 
     return (
         <Dialog.Root>
@@ -110,12 +123,12 @@ export function NewChatDialog({trigger}) {
 
                 <Flex gap="3" mt="4" justify="end">
                     <Dialog.Close>
-                    <Button variant="soft" color="gray">
-                        Cancel
-                    </Button>
+                        <Button variant="soft" color="gray">
+                            Cancel
+                        </Button>
                     </Dialog.Close>
                     <Dialog.Close>
-                    <Button>New Chat</Button>
+                        <Button onClick={createDiscussion}>New Chat</Button>
                     </Dialog.Close>
                 </Flex>
             </Dialog.Content>
