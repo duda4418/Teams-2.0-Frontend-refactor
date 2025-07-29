@@ -82,9 +82,10 @@ export default function MessagesSection({discussion, user}) {
                         }
                     }
                     return msg.user_id === user.id ? (
-                        <IncomingMessage key={msg.id} text={msg.value} sender={msg.name} time={formattedTime} />
-                    ) : (
                         <OutgoingMessage key={msg.id} message={msg.value} time={formattedTime} />
+
+                    ) : (
+                        <IncomingMessage key={msg.id} text={msg.value} sender={msg.name} time={formattedTime} />
                     );
                 })}
             </ScrollArea>

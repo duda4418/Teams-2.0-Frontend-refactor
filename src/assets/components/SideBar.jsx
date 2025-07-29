@@ -13,31 +13,31 @@ export default function SideBar({user, setSelectedDiscussion}) {
     useEffect(() => {
 
       if (user!=null){
-      const getDiscussions = async () => {
-        try {
-          const response = await fetch(`${API_URL}/discussions?user=${user.id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+        const getDiscussions = async () => {
+          try {
+            const response = await fetch(`${API_URL}/discussions?user_id=${user.id}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
 
-          if (!response.ok) {
-            throw new Error("Failed to fetch discussions");
+            if (!response.ok) {
+              throw new Error("Failed to fetch discussions");
+            }
+
+            const data = await response.json();
+            setDiscussions(data);
+            console.log("Fetched discussions:", data);
+
+          } catch (error) {
+            console.error("Failed to fetch discussions:", error);
           }
+        };
 
-          const data = await response.json();
-          setDiscussions(data);
-          console.log("Fetched discussions:", data);
-
-        } catch (error) {
-          console.error("Failed to fetch discussions:", error);
-        }
-      };
-
-      getDiscussions();
-    }
-  }, [user]);
+        getDiscussions();
+      }
+    }, [user]);
 
   return (
     <Flex
