@@ -1,11 +1,14 @@
 import { Box, Button, TextArea } from "@radix-ui/themes";
 import { SendHorizontal } from "lucide-react";
 import {useState, useEffect } from "react";
+import { useWebSocket } from "./WebSocketContext";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function InputBar({discussion, user}) {
 
     const [typedMessage, setTypedMessage] = useState("");
+    const { send } = useWebSocket();
+
     const sendMessage = async () => {
         console.log("Sending message:", typedMessage);
         console.log("Discussion ID:", discussion.id);
@@ -29,6 +32,7 @@ export default function InputBar({discussion, user}) {
 
         const data = await response.json();
         setTypedMessage("");
+        send({ ...data, type: "message" });
         console.log("Message sent:", data);
         } catch (error) {
         console.error("Send message error:", error);

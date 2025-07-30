@@ -3,6 +3,7 @@ import SideBar from './assets/components/SideBar';
 import NavBar from './assets/components/NavBar';
 import MessagesSection from './assets/components/MessagesSection';
 import InputBar from './assets/components/InputBar';
+import { WebSocketProvider } from './assets/components/WebSocketContext';
 const API_URL = import.meta.env.VITE_API_URL;
 const NAME = import.meta.env.VITE_NAME;
 const PASSWORD = import.meta.env.VITE_PASSWORD;
@@ -41,21 +42,25 @@ function App() {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      {/* Sidebar*/}
-      <div className="w-1/4 h-full">
-        <SideBar user={user} setSelectedDiscussion={setSelectedDiscussion} />
-      </div>
+    user ? (
+      <WebSocketProvider user={user}>
+        <div className="flex h-screen w-screen overflow-hidden">
+          {/* Sidebar*/}
+          <div className="w-1/4 h-full">
+            <SideBar user={user} setSelectedDiscussion={setSelectedDiscussion} />
+          </div>
 
-      {/* Right Pane*/}
-      <div className="flex flex-col flex-1 h-full">
-        <NavBar discussion={selectedDiscussion} />
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <MessagesSection discussion={selectedDiscussion} user={user}/>
-          <InputBar discussion={selectedDiscussion} user={user} />
+          {/* Right Pane*/}
+          <div className="flex flex-col flex-1 h-full">
+            <NavBar discussion={selectedDiscussion} />
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <MessagesSection discussion={selectedDiscussion} user={user}/>
+              <InputBar discussion={selectedDiscussion} user={user} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </WebSocketProvider>
+    ) : null
   );
 }
 

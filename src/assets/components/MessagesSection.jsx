@@ -2,10 +2,14 @@ import { Box, ScrollArea } from "@radix-ui/themes";
 import IncomingMessage from "./IncomingMessage";
 import OutgoingMessage from "./OutgoingMessage";
 import { useEffect, useState } from "react";
+import { useWebSocket } from "./WebSocketContext"; 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function MessagesSection({discussion, user}) {
     const [messages, setMessages] = useState([]);
+    const { lastMessage } = useWebSocket();
+
+
     useEffect(() => {
         if (user!=null && discussion!=null) {
             console.log("Fetching messages for discussion:", discussion.id, "and user:", user.id);
@@ -32,6 +36,11 @@ export default function MessagesSection({discussion, user}) {
             getMessages();
         }
     }, [user, discussion]);
+    useEffect(() => {
+    if (lastMessage && lastMessage.discussion_id === discussion.id) {
+      setMessages((prev) => [...prev, lastMessage]);
+    }
+  }, [lastMessage]);
 
     // Adjust the container and ScrollArea to be responsive and stop above the input bar.
     // Assume the input bar has a fixed height (e.g., 64px or 4rem). Adjust as needed.
