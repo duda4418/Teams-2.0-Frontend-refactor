@@ -1,49 +1,47 @@
 import { Box, ScrollArea } from "@radix-ui/themes";
 import IncomingMessage from "./IncomingMessage";
 import OutgoingMessage from "./OutgoingMessage";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWebSocket } from "./WebSocketContext"; 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function MessagesSection({discussion, user}) {
+export default function MessagesSection({ discussion, user }) {
     const [messages, setMessages] = useState([]);
     const { lastMessage } = useWebSocket();
-
+    const bottomRef = useRef(null);
 
     useEffect(() => {
-        if (user!=null && discussion!=null) {
-            console.log("Fetching messages for discussion:", discussion.id, "and user:", user.id);
+        if (user && discussion) {
             const getMessages = async () => {
                 try {
                     const response = await fetch(`${API_URL}/messages?user_id=${user.id}&discussion_id=${discussion.id}`, {
                         method: "GET",
-                        headers: {
-                        "Content-Type": "application/json",
-                        }
-                });
+                        headers: { "Content-Type": "application/json" },
+                    });
 
-                if (!response.ok) {
-                    throw new Error("Get messages failed");
-                }
+                    if (!response.ok) throw new Error("Get messages failed");
 
-                const data = await response.json();
-                setMessages(data);
-                console.log("Messages fetched:", data);
+                    const data = await response.json();
+                    setMessages(data);
                 } catch (error) {
-                console.error("Get messages error:", error);
+                    console.error("Get messages error:", error);
                 }
             };
             getMessages();
         }
     }, [user, discussion]);
-    useEffect(() => {
-    if (lastMessage && lastMessage.discussion_id === discussion.id) {
-      setMessages((prev) => [...prev, lastMessage]);
-    }
-  }, [lastMessage]);
 
-    // Adjust the container and ScrollArea to be responsive and stop above the input bar.
-    // Assume the input bar has a fixed height (e.g., 64px or 4rem). Adjust as needed.
+    // Append new WebSocket messages
+    useEffect(() => {
+        if (lastMessage && lastMessage.discussion_id === discussion.id) {
+            setMessages((prev) => [...prev, lastMessage]);
+        }
+    }, [lastMessage]);
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
     return (
         <Box
             position="absolute"
@@ -54,7 +52,7 @@ export default function MessagesSection({discussion, user}) {
             style={{
                 borderRadius: '0.5rem',
                 boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-                height: 'calc(100vh - 14vh)', // container height
+                height: 'calc(100vh - 14vh)',
                 zIndex: 10,
                 display: 'flex',
                 flexDirection: 'column',
@@ -79,7 +77,6 @@ export default function MessagesSection({discussion, user}) {
                 }}
             >
                 {messages.map((msg) => {
-                    // Format time to HH:MM
                     let formattedTime = "";
                     if (msg.time) {
                         const date = new Date(msg.time);
@@ -92,11 +89,12 @@ export default function MessagesSection({discussion, user}) {
                     }
                     return msg.user_id === user.id ? (
                         <OutgoingMessage key={msg.id} message={msg.value} time={formattedTime} />
-
                     ) : (
                         <IncomingMessage key={msg.id} text={msg.value} sender={msg.name} time={formattedTime} />
                     );
                 })}
+
+                <div ref={bottomRef} />
             </ScrollArea>
         </Box>
     );

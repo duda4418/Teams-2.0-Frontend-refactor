@@ -48,7 +48,6 @@ export default function InputBar({discussion, user}) {
                 right="4"
                 width="69vw"
                 p="4"
-
                 style={{
                     backgroundColor: "white",
                     borderRadius: '0.5rem',
@@ -57,9 +56,26 @@ export default function InputBar({discussion, user}) {
                 }}
             >
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
-                    <TextArea onChange={(e) => setTypedMessage(e.target.value)} size="2" placeholder="Type a message" style={{ width: '100%', height:"4rem" }} />
-                    <Button style={{ height: '3rem' }} my="2" radius="full">
-                        <SendHorizontal onClick={sendMessage} />
+                    <TextArea
+                        value={typedMessage}
+                        onChange={(e) => setTypedMessage(e.target.value)}
+                        size="2"
+                        placeholder="Type a message"
+                        style={{ width: '100%', height:"4rem" }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                                e.preventDefault();
+                                sendMessage();
+                            }
+                        }}
+                    />
+                    <Button
+                        style={{ height: '3rem' }}
+                        my="2"
+                        radius="full"
+                        onClick={sendMessage}
+                    >
+                        <SendHorizontal />
                     </Button>
                 </div>
             </Box>
