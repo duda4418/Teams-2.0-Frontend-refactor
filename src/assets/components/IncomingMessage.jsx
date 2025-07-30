@@ -22,16 +22,18 @@ const containerStyle = {
 function IncomingMessage({ text, sender, time }) {
     return (
         <div style={containerStyle}>
-            {sender && (
-                <span style={{ fontSize: '12px', color: '#888', marginBottom: 2 }}>
-                    {sender}
-                </span>
-            )}
             <div style={{ ...bubbleStyle, textAlign: 'left' }}>
-                {text}
+                {sender && (
+                    <div style={{ fontWeight: 'bold', fontSize: '0.75rem', color: '#555'}}>
+                        {sender}
+                    </div>
+                )}
+                <div>
+                    {text}
+                </div>
             </div>
             {time && (
-                <span style={{ fontSize: '11px', color: '#bbb', marginTop: 2 }}>
+                <span style={{ fontSize: '0.6875rem', color: '#bbb', marginBottom: 6 }}>
                     {time}
                 </span>
             )}
